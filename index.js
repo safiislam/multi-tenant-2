@@ -1,23 +1,29 @@
 import express from "express";
 import cors from "cors";
-import { multitenancy } from "express-multitenancy";
+import { dbRouter } from "./module/dburl/dburl.services.js";
+import { getConnection } from "./db/connectionManager.js";
+import { userRoutes } from "./module/user/user.services.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// app.use(
-//   multitenancy({
-//     getTenantId: (req) => {
-//       //   console.log(req);
-//       // Example: get tenant from header 'x-tenant-id'
-//       return req.headers["x-tenant-id"];
-//     },
-//   })
-// );
-app.get("/", async (req, res) => {
-  res.json({ message: "Hello" });
+app.get("/", (req, res) => {
+  console.log(req?.tenant);
+});
+
+app.use("/api", dbRouter);
+app.use("/api", userRoutes);
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack); // log full error
+
+  res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message || "Something went wrong",
+  });
 });
 
 export default app;

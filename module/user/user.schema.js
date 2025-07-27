@@ -1,12 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
-const userSchema = new Schema({
-  url: {
+export const userSchema = new Schema({
+  name: {
     type: String,
-    required: true,
+    required: [true, "Name is Required"],
+  },
+  email: {
+    type: String,
+    required: [true, "Email is Required"],
   },
 });
-
-const DB = mongoose.model("DB");
-
-export default DB;
