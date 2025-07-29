@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { dbRouter } from "./module/dburl/dburl.services.js";
-import { getConnection } from "./db/connectionManager.js";
 import { userRoutes } from "./module/user/user.services.js";
+import { blogRouters } from "./module/blog/blog.services.js";
 
 const app = express();
 
@@ -10,11 +10,12 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  console.log(req?.tenant);
+  res.send("hello");
 });
 
 app.use("/api", dbRouter);
 app.use("/api", userRoutes);
+app.use("/api", blogRouters);
 
 // Global error handler
 app.use((err, req, res, next) => {

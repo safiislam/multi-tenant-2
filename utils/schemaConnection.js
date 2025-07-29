@@ -2,7 +2,7 @@ import { getConnection } from "../db/connectionManager.js";
 
 export const schemaConnection = async (req, modelName, schema) => {
   try {
-    const tenantId = req.headers["x-tenant-id"] || "";
+    const tenantId = req.header("x-domain-name");
 
     const conn = await getConnection(tenantId);
 

@@ -26,5 +26,12 @@ router.post("/db", async (req, res) => {
     data: result,
   });
 });
+router.delete("/db/:id", async (req, res) => {
+  const id = req.params.id;
+  const conn = await getConnection();
+  const DB = await conn.model("DB");
+  const result = await DB.findByIdAndDelete(id);
+  res.send(result);
+});
 
 export const dbRouter = router;
